@@ -156,11 +156,9 @@ module.exports = function (handlebars, styleguide) {
         }
 
         // Otherwise return the modifier markup
-        var s = new handlebars.SafeString(
+        return new handlebars.SafeString(
             new kss.KssModifier(modifier).markup()
         );
-        console.log(s);
-        return s
     });
 
     /**
