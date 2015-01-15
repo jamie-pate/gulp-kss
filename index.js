@@ -47,10 +47,10 @@ module.exports = function(opt) {
         kss.parse(buffer, opt.kssOpts, function (err, styleguide) {
             if (err) console.log('Error', error);
 
-                var sections = styleguide.section('*.'),
-                    i, sectionCount = sections.length,
-                    sectionRoots = [], currentRoot,
-                    rootCount, childSections = [];
+            var sections = styleguide.section('*.'),
+                i, sectionCount = sections.length,
+                sectionRoots = [], currentRoot,
+                rootCount, childSections = [];
 
 
             // Accumulate all of the sections' first indexes

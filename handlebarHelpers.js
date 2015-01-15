@@ -76,13 +76,13 @@ module.exports = function (handlebars, styleguide) {
     /**
      * Equivalent to "if the current section is X levels deep". e.g:
      *
-     * {{#refDepth 1}}
+     * {{#ifDepth 1}}
      *   ROOT ELEMENTS ONLY
      *  {{else}}
      *   ANYTHING ELSE
-     * {{/refDepth}}
+     * {{/ifDepth}}
      */
-    handlebars.registerHelper('whenDepth', function(depth, context) {
+    handlebars.registerHelper('ifDepth', function(depth, context) {
         if (!(context && this.refDepth)) {
             return '';
         }
@@ -91,6 +91,27 @@ module.exports = function (handlebars, styleguide) {
         }
         if (context.inverse) {
             return context.inverse(this);
+        }
+    });
+
+    /**
+     * Equivalent to "if the current section is X levels deep". e.g:
+     *
+     * {{#unlessDepth 1}}
+     *   ANYTHING ELSE
+     *  {{else}}
+     *   ROOT ELEMENTS ONLY
+     * {{/unlessDepth}}
+     */
+    handlebars.registerHelper('unlessDepth', function(depth, context) {
+        if (!(context && this.refDepth)) {
+            return '';
+        }
+        if (depth == this.refDepth) {
+            return context.inverse(this);
+        }
+        if (context.inverse) {
+            return context.fn(this);
         }
     });
 
@@ -125,17 +146,21 @@ module.exports = function (handlebars, styleguide) {
             return false;
         }
 
+
         // Maybe it's actually a section?
         if (modifier.modifiers) {
+            console.log(modifier.markup);
             return new handlebars.SafeString(
                 modifier.markup
             );
         }
 
         // Otherwise return the modifier markup
-        return new handlebars.SafeString(
+        var s = new handlebars.SafeString(
             new kss.KssModifier(modifier).markup()
         );
+        console.log(s);
+        return s
     });
 
     /**
@@ -144,6 +169,13 @@ module.exports = function (handlebars, styleguide) {
      */
     handlebars.registerHelper('html', function(arg) {
         return new handlebars.SafeString(arg || '');
+    });
+
+    /**
+     *
+     */
+    handlebars.registerHelper('slugify', function(arg) {
+        return arg.toLowerCase().replace(/\W/g, '-');
     });
 
     return handlebars;
