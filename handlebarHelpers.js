@@ -174,5 +174,17 @@ module.exports = function (handlebars, styleguide) {
         return arg.toLowerCase().replace(/\W/g, '-');
     });
 
+     * Equivalent to "if the given reference is numeric". e.g:
+     *
+     * {{#ifNumeric reference}}
+     *   REFERENCES LIKE 4.0 OR 4.1.14
+     *  {{else}}
+     *   ANYTHING ELSE
+     * {{/ifNumeric}}
+     */
+    handlebars.registerHelper('ifNumeric', function(reference, options) {
+        return (typeof reference == 'number' || typeof reference == 'string' && reference.match(/^[\.\d]+$/)) ? options.fn(this) : options.inverse(this);
+    });
+
     return handlebars;
 };
