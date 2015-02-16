@@ -146,10 +146,8 @@ module.exports = function (handlebars, styleguide) {
             return false;
         }
 
-
         // Maybe it's actually a section?
         if (modifier.modifiers) {
-            console.log(modifier.markup);
             return new handlebars.SafeString(
                 modifier.markup
             );
